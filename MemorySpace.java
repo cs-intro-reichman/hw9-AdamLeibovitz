@@ -58,7 +58,7 @@ public class MemorySpace {
 	 * @return the base address of the allocated block, or -1 if unable to allocate
 	 */
 	public int malloc(int length) {		
-		if (freeList.getFirst == null) {
+		if (freeList.getFirst() == null) {
 			return -1;
 		}
 		Node current = freeList.getFirst();
@@ -70,7 +70,7 @@ public class MemorySpace {
 			}
 			else if (current.block.length == length) {
 				allocatedList.addLast(current.block);
-				int baseAddress = current.block.baseAddress
+				int baseAddress = current.block.baseAddress;
 				freeList.remove(current);
 				return baseAddress;
 			}
