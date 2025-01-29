@@ -93,8 +93,8 @@ public class MemorySpace {
 		Node current = allocatedList.getFirst();
 		while (current != null) {
 			if (current.block.baseAddress == address) {
-				allocatedList.remove(current);
 				freeList.addLast(current.block);
+				allocatedList.remove(current);
 			}
 			current = current.next;
 		}
