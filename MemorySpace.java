@@ -88,38 +88,24 @@ public class MemorySpace {
 	 *            the starting address of the block to freeList
 	 */
 	public void free(int address) {
-		//if (freeList.getFirst() == null) {
-		//	throw new IllegalArgumentException(
-		//			"index must be between 0 and size");
-		//}
-		//if (allocatedList.getFirst()==null) {
-		//	return;
-		//} 
-		//Node current = allocatedList.getFirst();
-		//while (current != null) {
-		//	if (current.block.baseAddress == address) {
-		//		freeList.addLast(current.block);
-		//		allocatedList.remove(current);
-		//		break;
-		//	}
-		//	current = current.next;
-		//}
 	if (allocatedList.getSize() == 0) {
         return;
     }
-
     Node current = allocatedList.getFirst();
+    MemoryBlock blockToFree = null;
     while (current != null) {
         if (current.block.baseAddress == address) {
-            MemoryBlock freedBlock = current.block;
+            blockToFree = current.block;
             allocatedList.remove(current);
-            freeList.addLast(freedBlock);
-            defrag();
-            return;
+            break;
         }
         current = current.next;
     }
-    throw new IllegalArgumentException("index must be between 0 and size");
+    if (blockToFree == null) {
+        throw new IllegalArgumentException("index must be between 0 and size");
+    }
+    freeList.addLast(blockToFree);
+    //defrag();
 	}
 	
 	/**
