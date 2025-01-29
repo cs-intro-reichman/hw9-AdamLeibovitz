@@ -202,7 +202,6 @@ public class LinkedList {
 		if (node == null) {
 			throw new IllegalArgumentException(
 					"ERROR NullPointerException!");
-			return;
 		}
 		if (first != null) {
 			Node current = first;
