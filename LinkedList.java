@@ -199,11 +199,11 @@ public class LinkedList {
 		if (size == 0) {
 			return;
 		}
-		if (node == null) {
-			throw new IllegalArgumentException(
-					"ERROR NullPointerException!");
-		}
-		if (first != null) {
+		//if (node == null) {
+		//	throw new IllegalArgumentException(
+		//			"ERROR NullPointerException!");
+		//}
+		//if (first != null) {
 			Node current = first;
 			for (int i = 0; i < size; i++) {
 				if (current == node) {
@@ -214,7 +214,7 @@ public class LinkedList {
 					current = current.next;
 				}
 			}
-		}
+		//}
 		//for (int i = 0; i < size; i++) {
 		//
 		//}

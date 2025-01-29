@@ -88,22 +88,38 @@ public class MemorySpace {
 	 *            the starting address of the block to freeList
 	 */
 	public void free(int address) {
-		if (freeList.getFirst() == null) {
-			throw new IllegalArgumentException(
-					"index must be between 0 and size");
-		}
-		if (allocatedList.getFirst()==null) {
-			return;
-		} 
-		Node current = allocatedList.getFirst();
-		while (current != null) {
-			if (current.block.baseAddress == address) {
-				freeList.addLast(current.block);
-				allocatedList.remove(current);
-				break;
-			}
-			current = current.next;
-		}
+		//if (freeList.getFirst() == null) {
+		//	throw new IllegalArgumentException(
+		//			"index must be between 0 and size");
+		//}
+		//if (allocatedList.getFirst()==null) {
+		//	return;
+		//} 
+		//Node current = allocatedList.getFirst();
+		//while (current != null) {
+		//	if (current.block.baseAddress == address) {
+		//		freeList.addLast(current.block);
+		//		allocatedList.remove(current);
+		//		break;
+		//	}
+		//	current = current.next;
+		//}
+	if (allocatedList.getSize() == 0) {
+        return;
+    }
+
+    Node current = allocatedList.getFirst();
+    while (current != null) {
+        if (current.block.baseAddress == address) {
+            MemoryBlock freedBlock = current.block;
+            allocatedList.remove(current);
+            freeList.addLast(freedBlock);
+            defrag();
+            return;
+        }
+        current = current.next;
+    }
+    throw new IllegalArgumentException("index must be between 0 and size");
 	}
 	
 	/**
@@ -121,37 +137,32 @@ public class MemorySpace {
 	 */
 	public void defrag() {
 		if (freeList.getSize() <= 1) {
-        	return;
+        return;
     	}
-		sortFreeListByAddress();
-		Node current = freeList.getFirst();
-		while (current != null && current.next != null) {
+    	boolean swapped;
+    	do {
+    	    swapped = false;
+    	    Node current = freeList.getFirst();
+    	    while (current != null && current.next != null) {
+    	        if (current.block.baseAddress > current.next.block.baseAddress) {
+    	            MemoryBlock temp = current.block;
+    	            current.block = current.next.block;
+    	            current.next.block = temp;
+    	            swapped = true;
+    	        }
+    	        current = current.next;
+    	    }
+    	}
+		while (swapped);
+    	Node current = freeList.getFirst();
+    	while (current != null && current.next != null) {
         	MemoryBlock b1 = current.block;
         	MemoryBlock b2 = current.next.block;
         	if (b1.baseAddress + b1.length == b2.baseAddress) {
-            	b1.length += b2.length;
-            	freeList.remove(current.next);
+        	    b1.length += b2.length;
+        	    freeList.remove(current.next);
         	}
 			else {
-            	current = current.next;
-        	}
-    	}
-	}
-	private void sortFreeListByAddress() { // ezer
-    	if (freeList.getSize() <= 1) {
-        	return;
-    	}
-    	boolean swap = true;
-    	while (swap) {
-        	swap = false;
-        	Node current = freeList.getFirst();
-        	while (current != null && current.next != null) {
-            	if (current.block.baseAddress > current.next.block.baseAddress) {
-                	MemoryBlock temp = current.block;
-                	current.block = current.next.block;
-                	current.next.block = temp;
-                	swap = true;
-            	}
             	current = current.next;
         	}
     	}
