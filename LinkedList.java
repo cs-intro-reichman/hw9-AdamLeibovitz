@@ -200,7 +200,7 @@ public class LinkedList {
 			return;
 		}
 		if (node == first) {
-			first = first.next
+			first = first.next;
 			if (first.next == null) {
 				last = null;
 			}
