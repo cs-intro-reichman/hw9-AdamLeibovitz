@@ -199,26 +199,41 @@ public class LinkedList {
 		if (node == null || size == 0) {
 			return;
 		}
-		if (node == first) {
-			first = first.next;
-			if (first.next == null) {
-				last = null;
+		if (first != null) {
+			Node current = first;
+			for (int i = 0; i < size; i++) {
+				if (current == node) {
+					remove(i);
+					break;
+				}
+				else {
+					current = current.next;
+				}
 			}
-			size--;
-			return;
 		}
-		Node preNode = first;
-		while (preNode != null && preNode.next != node) {
-			preNode = preNode.next;
-		}
-		if (preNode == null) {
-			return;
-		}
-		preNode.next = node.next;
-		if (node == last) {
-			last = preNode;
-		}
-		size--;
+		//for (int i = 0; i < size; i++) {
+		//
+		//}
+		//if (node == first) {
+		//	first = first.next;
+		//	if (first.next == null) {
+		//		last = null;
+		//	}
+		//	size--;
+		//	return;
+		//}
+		//Node preNode = first;
+		//while (preNode != null && preNode.next != node) {
+		//	preNode = preNode.next;
+		//}
+		//if (preNode == null) {
+		//	return;
+		//}
+		//preNode.next = node.next;
+		//if (node == last) {
+		//	last = preNode;
+		//}
+		//size--;
 	}
 
 	/**
