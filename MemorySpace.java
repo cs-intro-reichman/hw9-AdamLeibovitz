@@ -89,7 +89,7 @@ public class MemorySpace {
 	 */
 	public void free(int address) {
 	if (allocatedList.getSize() == 0) {
-        return;
+        throw new IllegalArgumentException("ERROR: index must be between 0 and size");
     }
     Node current = allocatedList.getFirst();
     MemoryBlock blockToFree = null;
@@ -102,10 +102,9 @@ public class MemorySpace {
         current = current.next;
     }
     if (blockToFree == null) {
-        throw new IllegalArgumentException("index must be between 0 and size");
+        return;
     }
     freeList.addLast(blockToFree);
-    //defrag();
 	}
 	
 	/**
