@@ -196,18 +196,40 @@ public class LinkedList {
 	 *        the node that will be removed from this list
 	 */
 	public void remove(Node node) {
-		if (first == node) {
-			first = first.next;
-			node.next = null;
+		if (node == null || size == 0) {
+			return;
 		}
-		int index = indexOf(node.block);
-		if (index > -1) {
-			Node preNode = getNode(index-1);
-			preNode.next = node.next;
-			if (last == node) {
-				last = preNode;
+		if (node == first) {
+			first = first.next
+			if (first.next == null) {
+				last = null;
 			}
+			size--;
+			return;
 		}
+		Node preNode = first;
+		while (preNode != null && preNode.next != node) {
+			preNode = preNode.next;
+		}
+		if (preNode == null) {
+			return;
+		}
+		preNode.next = node.next;
+		if (node == last) {
+			last = preNode;
+		}
+		//if (first == node) {
+		//	first = first.next;
+		//	node.next = null;
+		//}
+		//int index = indexOf(node.block);
+		//if (index > 0) {
+		//	Node preNode = getNode(index-1);
+		//	preNode.next = node.next;
+		//	if (last == node) {
+		//		last = preNode;
+		//	}
+		//}
 		size--;
 	}
 
@@ -223,19 +245,31 @@ public class LinkedList {
 			throw new IllegalArgumentException(
 					"index must be between 0 and size");
 		}
-		Node node = getNode(index);
+		//Node node = getNode(index);
 		if (index == 0) {
 			first = first.next;
-			node.next = null;
+			if (first == null) {
+				last = null;
+			}
+			size--;
+			return;
 		}
-		else if (index == size-1) {
-			Node preNode = getNode(index-1);
-			preNode.next = null;
+		//	node.next = null;
+		//}
+		//else if (index == size-1) {
+		//	Node preNode = getNode(index-1);
+		//	preNode.next = null;
+		//	last = preNode;
+		//}
+		//else {
+		//	getNode(index-1).next = node.next;
+		//	node.next = null;
+		//}
+		Node preNode = getNode(index-1);
+		Node toRemove = preNode.next;
+		preNode.next = toRemove.next;
+		if (toRemove == last) {
 			last = preNode;
-		}
-		else {
-			getNode(index-1).next = node.next;
-			node.next = null;
 		}
 		size--;
 	}
