@@ -218,18 +218,6 @@ public class LinkedList {
 		if (node == last) {
 			last = preNode;
 		}
-		//if (first == node) {
-		//	first = first.next;
-		//	node.next = null;
-		//}
-		//int index = indexOf(node.block);
-		//if (index > 0) {
-		//	Node preNode = getNode(index-1);
-		//	preNode.next = node.next;
-		//	if (last == node) {
-		//		last = preNode;
-		//	}
-		//}
 		size--;
 	}
 
@@ -245,7 +233,6 @@ public class LinkedList {
 			throw new IllegalArgumentException(
 					"index must be between 0 and size");
 		}
-		//Node node = getNode(index);
 		if (index == 0) {
 			first = first.next;
 			if (first == null) {
@@ -254,22 +241,14 @@ public class LinkedList {
 			size--;
 			return;
 		}
-		//	node.next = null;
-		//}
-		//else if (index == size-1) {
-		//	Node preNode = getNode(index-1);
-		//	preNode.next = null;
-		//	last = preNode;
-		//}
-		//else {
-		//	getNode(index-1).next = node.next;
-		//	node.next = null;
-		//}
 		Node preNode = getNode(index-1);
-		Node toRemove = preNode.next;
-		preNode.next = toRemove.next;
-		if (toRemove == last) {
+		if (index == size - 1) {
+			preNode.next = null;
 			last = preNode;
+		}
+		else {
+			Node toRemove = preNode.next;
+			preNode.next = toRemove.next;
 		}
 		size--;
 	}
@@ -289,7 +268,6 @@ public class LinkedList {
 		}
 		else {
 			remove(index);
-			size--;
 		}
 	}	
 
